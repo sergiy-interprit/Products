@@ -22,7 +22,7 @@ namespace Products.Services
 
         public async Task<Product> GetProductById(int id)
         {
-            return await _unitOfWork.Products.GetWithAccountByIdAsync(id);
+            return await _unitOfWork.Products.GetByIdAsync(id);
         }
 
         public async Task<IEnumerable<Product>> GetProductsByAccountId(int accountId)

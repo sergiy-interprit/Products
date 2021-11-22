@@ -1,6 +1,7 @@
 using AutoMapper;
 using Products.API.Models;
 using Products.Core.Models;
+using System.Linq;
 
 namespace Products.API.Mapping
 {
@@ -9,14 +10,19 @@ namespace Products.API.Mapping
         public MappingProfile()
         {
             // Domain to DTO
-            CreateMap<Account, AccountDto>();
-            CreateMap<Product, ProductDto>();
+            CreateMap<Account, AccountDto>()
+                //.ForMember(x => x.Products.Select(y => y.AccountId), opt => opt.Ignore())
+                .ReverseMap();
+
+            CreateMap<Account, AccountWithoutProductsDto>();
+
+            CreateMap<Product, ProductDto>().ReverseMap();
 
             // DTO to Domain
-            CreateMap<AccountDto, Account>();
-            CreateMap<SaveAccountDto, Account>();
+            //CreateMap<AccountDto, Account>();
+            CreateMap<SaveAccountDto, Account>().ReverseMap();
 
-            CreateMap<ProductDto, Product>();
+            //CreateMap<ProductDto, Product>();
             CreateMap<SaveProductDto, Product>();
         }
     }

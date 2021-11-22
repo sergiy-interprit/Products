@@ -8,6 +8,6 @@ namespace Products.Core.Repositories
     {
         Task<IEnumerable<Product>> GetAllWithAccountAsync();
         Task<Product> GetWithAccountByIdAsync(int id);
-        Task<IEnumerable<Product>> GetAllWithAccountByAccountIdAsync(int accounttId);
+        Task<IEnumerable<Product>> GetAllWithAccountByAccountIdAsync(int accountId);
     }
 }

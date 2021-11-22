@@ -10,6 +10,9 @@ namespace Products.API.Validations
             RuleFor(a => a.Name)
                 .NotEmpty()
                 .MaximumLength(50);
+
+            RuleFor(a => a.Description)
+                .MaximumLength(200);
         }
     }
 }

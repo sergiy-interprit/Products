@@ -24,7 +24,7 @@ namespace Products.Data.Repositories
         {
             return await ProductsDbContext.Products
                 .Include(m => m.Account)
-                .SingleOrDefaultAsync(m => m.Id == id);;
+                .SingleOrDefaultAsync(m => m.Id == id);
         }
 
         public async Task<IEnumerable<Product>> GetAllWithAccountByAccountIdAsync(int accountId)

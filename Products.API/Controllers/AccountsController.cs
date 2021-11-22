@@ -6,6 +6,7 @@ using Products.Core.Services;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Products.API.Validations;
+using Microsoft.AspNetCore.JsonPatch;
 
 namespace Products.API.Controllers
 {
@@ -23,23 +24,36 @@ namespace Products.API.Controllers
         }
 
         [HttpGet("")]
-        public async Task<ActionResult<IEnumerable<AccountDto>>> GetAllAccounts()
+        public async Task<ActionResult<IEnumerable<AccountDto>>> GetAllAccounts(bool includeProducts = false)
         {
-            var accounts = await _accountService.GetAllAccounts();
+            var accounts = await _accountService.GetAllAccounts(includeProducts);
 
-            var accountDtos = _mapper.Map<IEnumerable<Account>, IEnumerable<AccountDto>>(accounts);
+            if (includeProducts)
+            {
+                var accountDtos = _mapper.Map<IEnumerable<Account>, IEnumerable<AccountDto>>(accounts);
+                return Ok(accountDtos);
+            }
 
-            return Ok(accountDtos);
+            var accountWithoutProductsDtos = _mapper.Map<IEnumerable<Account>, IEnumerable<AccountWithoutProductsDto>>(accounts);
+            return Ok(accountWithoutProductsDtos);
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<AccountDto>> GetAccountById(int id)
+        public async Task<ActionResult<AccountDto>> GetAccountById(int id, bool includeProducts = false)
         {
-            var account = await _accountService.GetAccountById(id);
+            var account = await _accountService.GetAccountById(id, includeProducts);
 
-            var accountDto = _mapper.Map<Account, AccountDto>(account);
+            if (account == null)
+                return NotFound();
 
-            return Ok(accountDto);
+            if(includeProducts)
+            {
+                var accountDto = _mapper.Map<Account, AccountDto>(account);
+                return Ok(accountDto);
+            }
+
+            var accountWithoutProductsDto = _mapper.Map<Account, AccountWithoutProductsDto>(account);
+            return Ok(accountWithoutProductsDto);
         }
 
         [HttpPost("")]
@@ -49,14 +63,12 @@ namespace Products.API.Controllers
             var validationResult = await validator.ValidateAsync(saveAccountDto);
 
             if (!validationResult.IsValid)
-                return BadRequest(validationResult.Errors); // this needs refining, but for demo it is ok
+                return BadRequest(validationResult.Errors);
 
             var accountToCreate = _mapper.Map<SaveAccountDto, Account>(saveAccountDto);
-
             var newAccount = await _accountService.CreateAccount(accountToCreate);
 
-            var account = await _accountService.GetAccountById(newAccount.Id);
-
+            var account = await _accountService.GetAccountById(newAccount.Id, true);
             var accountDto = _mapper.Map<Account, AccountDto>(account);
 
             return Ok(accountDto);
@@ -69,28 +81,61 @@ namespace Products.API.Controllers
             var validationResult = await validator.ValidateAsync(saveAccountDto);
 
             if (!validationResult.IsValid)
-                return BadRequest(validationResult.Errors); // this needs refining, but for demo it is ok
+                return BadRequest(validationResult.Errors);
 
-            var accountToBeUpdated = await _accountService.GetAccountById(id);
+            var accountToBeUpdated = await _accountService.GetAccountById(id, false);
 
             if (accountToBeUpdated == null)
                 return NotFound();
 
             var account = _mapper.Map<SaveAccountDto, Account>(saveAccountDto);
-
             await _accountService.UpdateAccount(accountToBeUpdated, account);
 
-            var updatedAccount = await _accountService.GetAccountById(id);
+            //var updatedAccount = await _accountService.GetAccountById(id, false);
+            //var updatedAccountDto = _mapper.Map<Account, AccountDto>(updatedAccount);
+            //return Ok(updatedAccountDto);
 
-            var updatedAccountDto = _mapper.Map<Account, AccountDto>(updatedAccount);
+            return NoContent();
+        }
 
-            return Ok(updatedAccountDto);
+        [HttpPatch("{id}")]
+        public async Task<ActionResult<AccountDto>> PartiallyUpdateAccount(int id,
+             [FromBody] JsonPatchDocument<SaveAccountDto> patchDoc)
+        {
+            var accountToBeUpdated = await _accountService.GetAccountById(id, false);
+
+            if (accountToBeUpdated == null)
+                return NotFound();
+
+            var accountToPatch = _mapper.Map<SaveAccountDto>(accountToBeUpdated);
+
+            patchDoc.ApplyTo(accountToPatch, ModelState);
+
+            var validator = new SaveAccountDtoValidator();
+            var validationResult = await validator.ValidateAsync(accountToPatch);
+
+            if (!validationResult.IsValid)
+                return BadRequest(validationResult.Errors);
+
+            var account = _mapper.Map<SaveAccountDto, Account>(accountToPatch);
+            await _accountService.UpdateAccount(accountToBeUpdated, account);
+
+            //var updatedAccount = await _accountService.GetAccountById(id, false);
+            //var updatedAccountDto = _mapper.Map<Account, AccountDto>(updatedAccount);
+            //return Ok(updatedAccountDto);
+            
+            return NoContent();
         }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteAccount(int id)
         {
-            var account = await _accountService.GetAccountById(id);
+            var account = await _accountService.GetAccountById(id, false);
+
+            if (account == null)
+            {
+                return NotFound();
+            }
 
             await _accountService.DeleteAccount(account);
 

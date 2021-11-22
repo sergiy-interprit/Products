@@ -8,15 +8,15 @@ namespace Products.API.Models
         public string Name { get; set; }
         public string Description { get; set; }
 
-        //public int NumberOfProducts
-        //{
-        //    get
-        //    {
-        //        return Products.Count;
-        //    }
-        //}
+        public int NumberOfProducts
+        {
+            get
+            {
+                return Products.Count;
+            }
+        }
 
-        //public ICollection<ProductDto> Products { get; set; }
-        //  = new List<ProductDto>();
+        public ICollection<ProductDto> Products { get; set; }
+          = new List<ProductDto>();
     }
 }

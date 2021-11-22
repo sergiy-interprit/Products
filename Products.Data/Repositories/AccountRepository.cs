@@ -12,17 +12,29 @@ namespace Products.Data.Repositories
             : base(context)
         { }
 
-        public async Task<IEnumerable<Account>> GetAllWithProductsAsync()
+        public async Task<IEnumerable<Account>> GetAllAsync(bool includeProducts)
         {
+            if (includeProducts)
+            {
+                return await ProductsDbContext.Accounts
+                    .Include(a => a.Products)
+                    .ToListAsync();
+            }
+
             return await ProductsDbContext.Accounts
-                .Include(a => a.Products)
                 .ToListAsync();
         }
 
-        public Task<Account> GetWithProductsByIdAsync(int id)
+        public Task<Account> GetByIdAsync(int id, bool includeProducts)
         {
+            if (includeProducts)
+            {
+                return ProductsDbContext.Accounts
+                    .Include(a => a.Products)
+                    .SingleOrDefaultAsync(a => a.Id == id);
+            }
+
             return ProductsDbContext.Accounts
-                .Include(a => a.Products)
                 .SingleOrDefaultAsync(a => a.Id == id);
         }
 

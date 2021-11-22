@@ -1,705 +1,612 @@
 {
 	"info": {
-		"_postman_id": "0bdd38cf-30ee-4a6f-8974-3a29ee9f8998",
+		"_postman_id": "3dd27c30-de33-4f48-bf5a-36fd54cd7c11",
 		"name": "Products API",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
-			"name": "GET Cities",
-			"protocolProfileBehavior": {
-				"disabledSystemHeaders": {}
-			},
-			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "Accept",
-						"value": "application/json",
-						"type": "text"
-					}
-				],
-				"url": {
-					"raw": "http://localhost:1028/api/cities",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "1028",
-					"path": [
-						"api",
-						"cities"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "GET City",
-			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "Accept",
-						"value": "application/json",
-						"type": "text"
-					}
-				],
-				"url": {
-					"raw": "http://localhost:1028/api/cities/1",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "1028",
-					"path": [
-						"api",
-						"cities",
-						"1"
-					],
-					"query": [
-						{
-							"key": "includepointsofinterest",
-							"value": "true",
-							"disabled": true
+			"name": "Accounts",
+			"item": [
+				{
+					"name": "GET Accounts",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://localhost:44372/api/accounts?includeProducts=true",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44372",
+							"path": [
+								"api",
+								"accounts"
+							],
+							"query": [
+								{
+									"key": "includeProducts",
+									"value": "true"
+								}
+							]
 						}
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "GET Points of Interest",
-			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "Accept",
-						"value": "application/json",
-						"type": "text"
-					}
-				],
-				"url": {
-					"raw": "http://localhost:1028/api/cities/1/pointsofinterest",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "1028",
-					"path": [
-						"api",
-						"cities",
-						"1",
-						"pointsofinterest"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "GET Points of Interest (unexisting City)",
-			"protocolProfileBehavior": {
-				"disabledSystemHeaders": {}
-			},
-			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "Accept",
-						"value": "application/json",
-						"type": "text"
-					}
-				],
-				"url": {
-					"raw": "http://localhost:1028/api/cities/4/pointsofinterest",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "1028",
-					"path": [
-						"api",
-						"cities",
-						"4",
-						"pointsofinterest"
-					]
-				},
-				"description": "Should return 404 NotFound"
-			},
-			"response": []
-		},
-		{
-			"name": "GET Point of Interest",
-			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "Accept",
-						"value": "application/json",
-						"type": "text"
-					}
-				],
-				"url": {
-					"raw": "http://localhost:1028/api/cities/1/pointsofinterest/1",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "1028",
-					"path": [
-						"api",
-						"cities",
-						"1",
-						"pointsofinterest",
-						"1"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "GET Point of Interest (unexisting City)",
-			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "Accept",
-						"value": "application/json",
-						"type": "text"
-					}
-				],
-				"url": {
-					"raw": "http://localhost:1028/api/cities/4/pointsofinterest/1",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "1028",
-					"path": [
-						"api",
-						"cities",
-						"4",
-						"pointsofinterest",
-						"1"
-					]
-				},
-				"description": "Should return 404 NotFound"
-			},
-			"response": []
-		},
-		{
-			"name": "GET Point of Interest (unexisting Point of Interest)",
-			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "Accept",
-						"value": "application/json",
-						"type": "text"
-					}
-				],
-				"url": {
-					"raw": "http://localhost:1028/api/cities/1/pointsofinterest/10",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "1028",
-					"path": [
-						"api",
-						"cities",
-						"1",
-						"pointsofinterest",
-						"10"
-					]
-				},
-				"description": "Should return 404 NotFound"
-			},
-			"response": []
-		},
-		{
-			"name": "GET Cities (XML)",
-			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "Accept",
-						"value": "application/xml"
-					}
-				],
-				"url": {
-					"raw": "http://localhost:1028/api/cities",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "1028",
-					"path": [
-						"api",
-						"cities"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "POST Point of Interest",
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json"
 					},
-					{
-						"key": "Accept",
-						"value": "application/json",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"name\": \"Père Lachaise\",\n    \"description\": \"Famous cemetery where Jim Morrison and Oscar Wilde are buried.\"\n}"
+					"response": []
 				},
-				"url": {
-					"raw": "http://localhost:1028/api/cities/3/pointsofinterest",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "1028",
-					"path": [
-						"api",
-						"cities",
-						"3",
-						"pointsofinterest"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "POST Point of Interest (can't deserialize)",
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json"
+				{
+					"name": "GET Account",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://localhost:44372/api/accounts/3?includeProducts=true",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44372",
+							"path": [
+								"api",
+								"accounts",
+								"3"
+							],
+							"query": [
+								{
+									"key": "includeProducts",
+									"value": "true"
+								}
+							]
+						}
 					},
-					{
-						"key": "Accept",
-						"value": "application/json",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": ""
+					"response": []
 				},
-				"url": {
-					"raw": "http://localhost:1028/api/cities/3/pointsofinterest",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "1028",
-					"path": [
-						"api",
-						"cities",
-						"3",
-						"pointsofinterest"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "POST Point of Interest (missing name, long description)",
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json"
+				{
+					"name": "POST Account",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": 1,\n    \"name\": \"Account1\",\n    \"description\": \"Description of Account1.\"\n}"
+						},
+						"url": {
+							"raw": "https://localhost:44372/api/accounts",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44372",
+							"path": [
+								"api",
+								"accounts"
+							]
+						}
 					},
-					{
-						"key": "Accept",
-						"value": "application/json",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"invalidProperty\": 1,\n    \"description\": \"Scallywag holystone landlubber or just lubber yardarm tackle Shiver me timbers cog heave down provost Admiral of the Black. Hornswaggle spanker man-of-war yo-ho-ho mutiny splice the main brace jack keelhaul fire ship Corsair. Bounty prow walk the plank lugsail port loot pirate bilge jib scuppers.  Sutler lee matey sloop plunder splice the main brace interloper Yellow Jack maroon quarter. Draft Privateer run a shot across the bow chandler gaff broadside Pirate Round jolly boat skysail bilge. Chandler mutiny careen execution dock splice the main brace bring a spring upon her cable lass run a rig grog blossom smartly.  Gangplank Davy Jones' Locker plunder overhaul draught pinnace blow the man down bring a spring upon her cable no prey, no pay keel. Gold Road gaff grapple sutler scurvy aft bilge come about coffer gunwalls. Scuttle list Davy Jones' Locker pinnace chase trysail draught Pirate Round Jolly Roger log.\"\n}\n"
+					"response": []
 				},
-				"url": {
-					"raw": "http://localhost:1028/api/cities/3/pointsofinterest",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "1028",
-					"path": [
-						"api",
-						"cities",
-						"3",
-						"pointsofinterest"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "POST Point of Interest (name == description)",
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json"
+				{
+					"name": "POST Account (name missing)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"description\": \"Description of Account3.\"\n}"
+						},
+						"url": {
+							"raw": "https://localhost:44372/api/accounts",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44372",
+							"path": [
+								"api",
+								"accounts"
+							]
+						}
 					},
-					{
-						"key": "Accept",
-						"value": "application/json",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"name\": \"Père Lachaise\",\n    \"description\": \"Père Lachaise\"\n}"
+					"response": []
 				},
-				"url": {
-					"raw": "http://localhost:1028/api/cities/3/pointsofinterest",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "1028",
-					"path": [
-						"api",
-						"cities",
-						"3",
-						"pointsofinterest"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "PUT Point of Interest",
-			"request": {
-				"method": "PUT",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"name\": \"Updated from PUT - Central Park\",\n    \"description\": \"Updated from PUT - The most visited urban park in the United States.\"\n}"
-				},
-				"url": {
-					"raw": "http://localhost:1028/api/cities/1/pointsofinterest/1",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "1028",
-					"path": [
-						"api",
-						"cities",
-						"1",
-						"pointsofinterest",
-						"1"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "PUT Point of Interest (no description)",
-			"request": {
-				"method": "PUT",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"name\": \"Updated again from PUT - Central Park\"\n}"
-				},
-				"url": {
-					"raw": "http://localhost:1028/api/cities/1/pointsofinterest/1",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "1028",
-					"path": [
-						"api",
-						"cities",
-						"1",
-						"pointsofinterest",
-						"1"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "PATCH Point of Interest",
-			"request": {
-				"method": "PATCH",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "[\n    {\n      \"op\": \"replace\",\n      \"path\": \"/name\",\n      \"value\": \"Updated - Central Park from PATCH\"\n    }\n]"
-				},
-				"url": {
-					"raw": "http://localhost:1028/api/cities/1/pointsofinterest/1",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "1028",
-					"path": [
-						"api",
-						"cities",
-						"1",
-						"pointsofinterest",
-						"1"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "PATCH Point of Interest (update multiple)",
-			"request": {
-				"method": "PATCH",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "[\n    {\n      \"op\": \"replace\",\n      \"path\": \"/name\",\n      \"value\": \"Updated - Central Park from PATCH\"\n    },\n    {\n      \"op\": \"replace\",\n      \"path\": \"/description\",\n      \"value\": \"Updated - Description from PATCH\"\n    }\n]"
-				},
-				"url": {
-					"raw": "http://localhost:1028/api/cities/1/pointsofinterest/1",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "1028",
-					"path": [
-						"api",
-						"cities",
-						"1",
-						"pointsofinterest",
-						"1"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "PATCH Point of Interest (invalid property)",
-			"request": {
-				"method": "PATCH",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json"
+				{
+					"name": "POST Account (name too long)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Account3 LONG LONG LONG LONG LONG LONG LONG LONG LONG\",\n    \"description\": \"Description of Account3.\"\n}"
+						},
+						"url": {
+							"raw": "https://localhost:44372/api/accounts",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44372",
+							"path": [
+								"api",
+								"accounts"
+							]
+						}
 					},
-					{
-						"key": "Accept",
-						"value": "application/json",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "[\n    {\n      \"op\": \"replace\",\n      \"path\": \"/invalidproperty\",\n      \"value\": \"Updated - Central Park\"\n    }\n]"
+					"response": []
 				},
-				"url": {
-					"raw": "http://localhost:1028/api/cities/1/pointsofinterest/1",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "1028",
-					"path": [
-						"api",
-						"cities",
-						"1",
-						"pointsofinterest",
-						"1"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "PATCH Point of Interest (remove name)",
-			"request": {
-				"method": "PATCH",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json"
+				{
+					"name": "PUT Account",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Account3 - Update from PUT\",\n    \"description\": \"Description of Account3 - Update from PUT\"\n}"
+						},
+						"url": {
+							"raw": "https://localhost:44372/api/accounts/3",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44372",
+							"path": [
+								"api",
+								"accounts",
+								"3"
+							]
+						}
 					},
-					{
-						"key": "Accept",
-						"value": "application/json",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "[\n    {\n      \"op\": \"remove\",\n      \"path\": \"/name\"\n    }\n]"
+					"response": []
 				},
-				"url": {
-					"raw": "http://localhost:1028/api/cities/1/pointsofinterest/1",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "1028",
-					"path": [
-						"api",
-						"cities",
-						"1",
-						"pointsofinterest",
-						"1"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "PATCH Point of Interest (update multiple, same value)",
-			"request": {
-				"method": "PATCH",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "[\n    {\n      \"op\": \"replace\",\n      \"path\": \"/name\",\n      \"value\": \"Updated - Central Park from PATCH\"\n    },\n    {\n      \"op\": \"replace\",\n      \"path\": \"/description\",\n      \"value\": \"Updated - Central Park from PATCH\"\n    }\n]"
+				{
+					"name": "PUT Account (invalid id)",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Account3 - Update from PUT\",\n    \"description\": \"Description of Account3 - Update from PUT\"\n}"
+						},
+						"url": {
+							"raw": "https://localhost:44372/api/accounts/99",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44372",
+							"path": [
+								"api",
+								"accounts",
+								"99"
+							]
+						}
+					},
+					"response": []
 				},
-				"url": {
-					"raw": "http://localhost:1028/api/cities/1/pointsofinterest/1",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "1028",
-					"path": [
-						"api",
-						"cities",
-						"1",
-						"pointsofinterest",
-						"1"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "DELETE Point of Interest",
-			"request": {
-				"method": "DELETE",
-				"header": [
-					{
-						"key": "Accept",
-						"value": "application/json",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": ""
+				{
+					"name": "PUT Account (name missing)",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"description\": \"Description of Account3 - Update from PUT\"\n}"
+						},
+						"url": {
+							"raw": "https://localhost:44372/api/accounts/3",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44372",
+							"path": [
+								"api",
+								"accounts",
+								"3"
+							]
+						}
+					},
+					"response": []
 				},
-				"url": {
-					"raw": "http://localhost:1028/api/cities/1/pointsofinterest/1",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "1028",
-					"path": [
-						"api",
-						"cities",
-						"1",
-						"pointsofinterest",
-						"1"
-					]
+				{
+					"name": "PUT Account (name too long)",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Account3 - Update from PUT - LONG LONG LONG LONG LONG LONG LONG LONG LONG\",\n    \"description\": \"Description of Account3 - Update from PUT\"\n}"
+						},
+						"url": {
+							"raw": "https://localhost:44372/api/accounts/3",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44372",
+							"path": [
+								"api",
+								"accounts",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PATCH Account",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\n    {\n      \"op\": \"replace\",\n      \"path\": \"/name\",\n      \"value\": \"Account3 - Update from PATCH\"\n    },\n     {\n      \"op\": \"replace\",\n      \"path\": \"/description\",\n      \"value\": \"Description of Account3 - Update from PATCH\"\n    }   \n]"
+						},
+						"url": {
+							"raw": "https://localhost:44372/api/accounts/3",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44372",
+							"path": [
+								"api",
+								"accounts",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PATCH Account (invalid id)",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\n    {\n      \"op\": \"replace\",\n      \"path\": \"/name\",\n      \"value\": \"Account3 - Update from PATCH\"\n    },\n     {\n      \"op\": \"replace\",\n      \"path\": \"/description\",\n      \"value\": \"Description of Account3 - Update from PATCH\"\n    }   \n]"
+						},
+						"url": {
+							"raw": "https://localhost:44372/api/accounts/99",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44372",
+							"path": [
+								"api",
+								"accounts",
+								"99"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PATCH Account (name too long)",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\n    {\n      \"op\": \"replace\",\n      \"path\": \"/name\",\n      \"value\": \"Account3 - Update from PATCH - LONG LONG LONG LONG LONG LONG LONG LONG LONG\"\n    },\n     {\n      \"op\": \"replace\",\n      \"path\": \"/description\",\n      \"value\": \"Description of Account3 - Update from PATCH\"\n    }   \n]"
+						},
+						"url": {
+							"raw": "https://localhost:44372/api/accounts/3",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44372",
+							"path": [
+								"api",
+								"accounts",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE Account",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://localhost:44372/api/accounts/3",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44372",
+							"path": [
+								"api",
+								"accounts",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE Account (invalid id)",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://localhost:44372/api/accounts/3",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44372",
+							"path": [
+								"api",
+								"accounts",
+								"3"
+							]
+						}
+					},
+					"response": []
 				}
-			},
-			"response": []
+			]
 		},
 		{
-			"name": "GET Points of Interest",
-			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "Accept",
-						"value": "application/json",
-						"type": "text"
-					}
-				],
-				"url": {
-					"raw": "http://localhost:1028/api/cities/1/pointsofinterest",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "1028",
-					"path": [
-						"api",
-						"cities",
-						"1",
-						"pointsofinterest"
-					]
+			"name": "Products",
+			"item": [
+				{
+					"name": "GET Products",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://localhost:44372/api/products",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44372",
+							"path": [
+								"api",
+								"products"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET Product",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://localhost:44372/api/products/1",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44372",
+							"path": [
+								"api",
+								"products",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST Product",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Product6\",\n    \"description\": \"Description of Product6.\",\n    \"quantity\": 7,\n    \"unitPrice\": 8.60,\n    \"accountId\": 1\n}"
+						},
+						"url": {
+							"raw": "https://localhost:44372/api/products",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44372",
+							"path": [
+								"api",
+								"products"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PUT Product",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Product6 - UPDATE\",\n    \"description\": \"Description of Product6 - UPDATE.\",\n    \"quantity\": 8,\n    \"unitPrice\": 8.65,\n    \"accountId\": 1\n}"
+						},
+						"url": {
+							"raw": "https://localhost:44372/api/products/6",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44372",
+							"path": [
+								"api",
+								"products",
+								"6"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE Product",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://localhost:44372/api/products/6",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44372",
+							"path": [
+								"api",
+								"products",
+								"6"
+							]
+						}
+					},
+					"response": []
 				}
-			},
-			"response": []
-		},
-		{
-			"name": "Test database",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "http://localhost:1028/api/testdatabase",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "1028",
-					"path": [
-						"api",
-						"testdatabase"
-					]
-				}
-			},
-			"response": []
+			]
 		}
 	]
 }

@@ -1,6 +1,8 @@
 https://medium.com/swlh/building-a-nice-multi-layer-net-core-3-api-c68a9ef16368
 https://github.com/alopes2/Medium-MyMusic
 
+https://stackoverflow.com/questions/59199593/net-core-3-0-possible-object-cycle-was-detected-which-is-not-supported
+
 =================================
 Entity Framework
 =================================

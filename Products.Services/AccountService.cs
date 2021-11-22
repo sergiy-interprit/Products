@@ -15,16 +15,14 @@ namespace Products.Services
             this._unitOfWork = unitOfWork;
         }
 
-        public async Task<IEnumerable<Account>> GetAllAccounts()
+        public async Task<IEnumerable<Account>> GetAllAccounts(bool includeProducts)
         {
-            // TODO: Add Query param to return with or without Products!
-
-            return await _unitOfWork.Accounts.GetAllAsync();
+            return await _unitOfWork.Accounts.GetAllAsync(includeProducts);
         }
 
-        public async Task<Account> GetAccountById(int id)
+        public async Task<Account> GetAccountById(int id, bool includeProducts)
         {
-            return await _unitOfWork.Accounts.GetByIdAsync(id);
+            return await _unitOfWork.Accounts.GetByIdAsync(id, includeProducts);
         }
 
         public async Task<Account> CreateAccount(Account newAccount)
@@ -39,6 +37,7 @@ namespace Products.Services
         public async Task UpdateAccount(Account accountToBeUpdated, Account account)
         {
             accountToBeUpdated.Name = account.Name;
+            accountToBeUpdated.Description = account.Description;
 
             await _unitOfWork.CommitAsync();
         }

@@ -9,6 +9,8 @@ using Products.Core.Services;
 
 namespace Products.API.Controllers
 {
+    // TODO: Remove full Account with Products on Get operations!
+
     [Route("api/[controller]")]
     [ApiController]
     public class ProductsController : ControllerBase

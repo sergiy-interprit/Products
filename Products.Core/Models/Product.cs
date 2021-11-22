@@ -1,5 +1,4 @@
-﻿using Products.Core.Models;
-using System;
+﻿using System;
 
 namespace Products.Core.Models
 {

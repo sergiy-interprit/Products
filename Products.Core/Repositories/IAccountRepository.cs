@@ -6,7 +6,8 @@ namespace Products.Core.Repositories
 {
     public interface IAccountRepository : IRepository<Account>
     {
-        Task<IEnumerable<Account>> GetAllWithProductsAsync();
-        Task<Account> GetWithProductsByIdAsync(int id);
+        Task<IEnumerable<Account>> GetAllAsync(bool includeProducts);
+
+        Task<Account> GetByIdAsync(int id, bool includeProducts);
     }
 }

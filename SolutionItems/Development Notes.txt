@@ -1,0 +1,58 @@
+https://medium.com/swlh/building-a-nice-multi-layer-net-core-3-api-c68a9ef16368
+https://github.com/alopes2/Medium-MyMusic
+
+=================================
+Entity Framework
+=================================
+Ensure Microsoft.EntityFrameworkCore.Tools NuGet package is added.
+
+From Package Manager Console > select Default project as "Products.Data":
+	Add-Migration InitialMigration
+	Update-Database
+
+	Add-Migration SeedAccountsAndProductsTable			// Create empty migration and manually add seed data
+	Update-Database
+
+=================================
+Swagger 
+=================================
+https://localhost:44372/swagger/v1/swagger.json
+https://localhost:44372/swagger/index.html
+
+
+public partial class SeedAccountsAndProductsTable : Migration
+{
+	protected override void Up(MigrationBuilder migrationBuilder)
+	{
+		migrationBuilder
+			.Sql("INSERT INTO Accounts (Name, Description) VALUES ('Account1', 'Description of Account1.')");
+		migrationBuilder
+			.Sql("INSERT INTO Accounts (Name, Description) VALUES ('Account2', 'Description of Account2.')");
+
+		migrationBuilder
+			.Sql("INSERT INTO Products (Name, Quantity, UnitPrice, AccountId) " +
+				"VALUES ('Product1', 5, 2.1, (SELECT Id FROM Accounts WHERE Name = 'Account1'))");
+		migrationBuilder
+			.Sql("INSERT INTO Products (Name, Quantity, UnitPrice, AccountId) " +
+				"VALUES ('Product2', 6, 15.7, (SELECT Id FROM Accounts WHERE Name = 'Account1'))");
+
+		migrationBuilder
+			.Sql("INSERT INTO Products (Name, Quantity, UnitPrice, AccountId) " +
+				"VALUES ('Product3', 10, 18.4, (SELECT Id FROM Accounts WHERE Name = 'Account2'))");
+		migrationBuilder
+			.Sql("INSERT INTO Products (Name, Quantity, UnitPrice, AccountId) " +
+				"VALUES ('Product4', 11, 19.3, (SELECT Id FROM Accounts WHERE Name = 'Account2'))");
+		migrationBuilder
+			.Sql("INSERT INTO Products (Name, Quantity, UnitPrice, AccountId) " +
+				"VALUES ('Product5', 12, 20.9, (SELECT Id FROM Accounts WHERE Name = 'Account2'))");
+	}
+
+	protected override void Down(MigrationBuilder migrationBuilder)
+	{
+		migrationBuilder
+			.Sql("DELETE FROM Products");
+
+		migrationBuilder
+			.Sql("DELETE FROM Accounts");
+	}
+}

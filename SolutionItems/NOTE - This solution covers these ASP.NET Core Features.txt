@@ -1,0 +1,316 @@
+=================================================
+Dependency Injection
+=================================================
+	Startup.cs:
+		// STEP 1: Register middleware (add services to the container) in this method!
+		ConfigureServices(IServiceCollection services):	
+			// Add OOTB and NuGet Package Services:
+				services.AddJsonOptions(jsonOptions => { jsonOptions.JsonSerializerOptions.PropertyNamingPolicy = null; })    		// Enable this to change Json result property names to start with upper case!
+				services.AddMvcOptions(o => o.OutputFormatters.Add(new XmlDataContractSerializerOutputFormatter()))           		// Add this to support Accept = "application/xml" header!
+				services.AddControllersWithViews().AddNewtonsoftJson();														  		// Allow use of JsonPatchDocument for HTTP PATCH actions			
+				services.AddDbContext<CityInfoContext>(o => { o.UseSqlServer(connectionString); });									// Add Entity Framework Core
+				services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new OpenApiInfo { Title = "CityInfo API", Version = "v1", }); });	// Add Swagger Gen and Swagger Doc (Swashbuckle) to generate Open API Spec
+			// Add Custom Services (with optional preprocessor directives):
+				#if DEBUG
+							services.AddTransient<IMailService, LocalMailService>();			// Add this 
+				#else
+							services.AddTransient<IMailService, CloudMailService>();			// Add this service if Release mode
+				#endif
+		
+			// NOTE:
+            // AddTransient()   = created each time it is requested - best for light-weight stateless services
+            // AddScoped()      = created once for each request 
+            // AddSingleton()   = created first time it is requested
+				
+		// STEP 2: Use middleware (e.g. Auth, MVC) to configure the HTTP request pipeline in this method!
+		Configure(IApplicationBuilder app, IWebHostEnvironment env):
+            app.UseStatusCodePages();																								// Add Status Code Pages middleware.
+			app.UseMvc();																											// Add MVC middleware.
+			app.UseSwagger();																										// Use Swagger (Swashbuckle) to generate Open API Spec
+            app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "CityInfo API"); });  							// Use Swagger UI (Swashbuckle) to generate Open API Spec
+			 
+		// STEP 3: Inject and use service instances in constructors!
+	Startup.cs.:
+		public Startup(IConfiguration configuration)																				// In Startup class
+	CloudMailService.cs:
+		public CloudMailService(IConfiguration configuration)																		// In custom service class
+	PointsOfInterestController.cs:
+		public PointsOfInterestController(ILogger<PointsOfInterestController> logger, IMailService mailService)						// In controller class
+			
+=================================================
+Environment Variables
+=================================================
+	"CityInfo.API" Project Properties > Debug tab:
+		ASPNETCORE_ENVIRONMENT = Development or Production
+		
+		CODE USAGE EXAMPLE:
+			Startup.cs:
+				public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+					if (env.IsDevelopment())				// This variable controls this condition!
+						 app.UseDeveloperExceptionPage();
+		
+		connectionStrings:cityInfoDBConnectionString = Server=myProdServer;Database=CityInfoDB;UserId=NotSA;Password=NotSA;	
+			Keep commented out when ASPNETCORE_ENVIRONMENT = Development.
+			Uncomment when configuring Azure App Service when ASPNETCORE_ENVIRONMENT = Production.
+		
+		CODE USAGE EXAMPLE:
+			Startup.cs:
+				// 1. Add reference.
+				using Microsoft.Extensions.Configuration;	
+				// 2. Declare variable.
+				private readonly IConfiguration _configuration;				
+				// 3. Constructor dependency injection.
+				public Startup(IConfiguration configuration)
+					 _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
+				// 4. Retrieve app settings.
+				var connectionString = _configuration["connectionStrings:cityInfoDBConnectionString"];
+				var mailToAddress = _configuration["mailSettings:mailToAddress"];		// IF EnvVar="Development" THEN "developer@mycompany.com" ELSE "admin@mycompany.com"
+				var mailFromAddress = _configuration["mailSettings:mailFromAddress"];	// "noreply@mycompany.com" (default for all Env from appsettings.json)
+
+	NOTE:
+	- The Project Settings and environment variables are also saved in .\Properties\launchSettings.json.	
+	
+		What does the JSON file launchsettings.json do?
+			This json file holds project specific settings associated with each debug profile, Visual Studio is configured to use to launch the application, 
+			including any environment variables that should be used. You can define framework for your project for compilation and debugging for specific profiles.
+	
+	- Check Visual Studio Output Console (Debug) during debugging to see which app settings are being used based on specified environment variables.
+
+=================================================
+Configuration
+=================================================
+	appsettings.json
+		- Used when ASPNETCORE_ENVIRONMENT = Development
+		- Provides some default settings inherited in "appsettings.Production.json" if not overriden there with same JSON property name. 		
+	appsettings.Production.json
+		- Used when ASPNETCORE_ENVIRONMENT = Production
+		- SQL connection moved from here to environment variable for security reasons (PROD passwords should NOT be stored here). 
+		
+=================================================
+Logging
+=================================================
+NLog:
+	// STEP 1: Add NuGet Package: NLog.Web.AspNetCore.
+	
+	// STEP 2: Ensure default "nlog.config" XML configuration file is created under project.
+		<?xml version="1.0" encoding="utf-8" ?>
+		<nlog xmlns="http://www.nlog-project.org/schemas/NLog.xsd"
+			  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+			<!-- enable asp.net core layout renderers -->
+			<extensions>
+				<add assembly="NLog.Web.AspNetCore"/>
+			</extensions>
+
+			<!-- the targets to write to -->
+			<targets>
+				<!-- Writes NLog to daily LOG text file created under: .\CityInfo\CityInfo.API\bin\Debug\netcoreapp3.1\Debug\ -->
+				<target name="logfile" xsi:type="File" fileName="nlog-${shortdate}.log" />
+				
+				<!-- Writes NLog to debugger window in Visual Studio: 
+					 https://stackoverflow.com/questions/50883109/have-nlog-write-to-console -->
+				<target xsi:type="Debugger" name="debugger" layout="${longdate} ${uppercase:${level}}|${callsite}|${message}" />  
+			</targets>
+
+			<!-- rules to map from logger name to target -->
+			<rules>
+				<!-- Writes NLog to daily LOG text file created under: .\CityInfo\CityInfo.API\bin\Debug\netcoreapp3.1\Debug\ -->
+				<logger name="*" minlevel="Info" writeTo="logfile" />
+
+				<!-- Writes NLog to debugger window in Visual Studio:
+					 https://stackoverflow.com/questions/50883109/have-nlog-write-to-console -->
+				<logger name="*" minlevel="Trace" writeTo="debugger" />
+			</rules>
+		</nlog>
+
+	// STEP 3: Update Program.cs
+		public static IHostBuilder CreateHostBuilder(string[] args) =>
+            Host.CreateDefaultBuilder(args)
+                .ConfigureWebHostDefaults(webBuilder =>
+                {
+                    webBuilder.UseStartup<Startup>()
+                    .UseNLog(); // Added to use NLog as logging provider
+                });
+	
+	// STEP 4: Use logger in Program.cs > Main() method:
+		var logger = NLogBuilder.ConfigureNLog("nlog.config").GetCurrentClassLogger();
+		logger.Info("Initializing application...");																// Use in Try block
+		logger.Error(ex, "An error ocured while migrating the database.");										// Use in Catch block
+		NLog.LogManager.Shutdown();																				// Use in Finally block
+	
+	// STEP 5: Use logger in Controller class:						
+		private readonly ILogger<PointsOfInterestController> _logger;											// Create variable
+		public PointsOfInterestController(ILogger<PointsOfInterestController> logger)							// Initialise via dependency injection
+			_logger = logger;
+		_logger.LogInformation($"City with id {cityId} wasn't found when accessing points of interest.");		// Use in methods (with or without try block)
+		_logger.LogCritical($"Exception while getting points of interet for city with id {cityId}.", ex);		// Use in Catch block 
+		
+	// STEP 6: Check log output in LOG file and Visual Studio Debug window:
+		.\CityInfo\CityInfo.API\bin\Debug\netcoreapp3.1\nlog-YYYY-MM-DD.log
+			2021-11-17 10:41:50.1585|INFO|CityInfo.API.Program|Initializing application...
+			2021-11-17 10:42:01.2109|INFO|CityInfo.API.Startup|SQL connection string from configuration: Server=(localdb)\mssqllocaldb;Database=CityInfoDB;Trusted_Connection=True;.
+			2021-11-17 10:42:01.3176|INFO|CityInfo.API.Startup|Mail To Address from configuration: developer@mycompany.com.
+			2021-11-17 10:42:01.3579|INFO|CityInfo.API.Startup|Mail From Address from configuration: noreply@mycompany.com.
+
+Serilog:
+	TODO
+
+=================================================
+Automatic Open API Spec Generation
+=================================================
+Swashbuckle:
+	// STEP 1: Add NuGet Package: Swashbuckle.AspNetCore.
+	
+	// STEP 2: Configure Startup.cs to register Swagger Gen and Swagger Doc and use Swagger and Swagger UI as per Dependency Injection examples above!
+	
+	// STEP 3: Run the app in Debug mode and browse to the following URL's:
+		http://localhost:1028/swagger/v1/swagger.json			// Get Swagger JSON definition (can be copied/edited in Swagger Editor)
+		http://localhost:1028/swagger/index.html				// View Swagger UI (HTML documentation and Testing)
+
+=================================================
+API Input and Database Validation
+=================================================
+	// DTO = Data Transfer Object:
+    //  Dumb - it just holds properties and has getters and setters, but no other logic of any significance)
+    //  Returned from or acccepted by API - NOT the same as "Entity" classes used by underlying entity store
+
+	// NOTE: 
+	// - Validation Annotations are typically used on the data input DTO's only!
+	// - DTO's may contain additional derived properties not present in the "Entity" classes!
+	//   Example: 
+		 CityDto.cs:
+			public int NumberOfPointsOfInterest
+			{
+				get
+				{
+					return PointsOfInterest.Count;
+				}
+			}		
+
+	// STEP 1: Add API Validation Annotations on "DTO" classes as per example below:
+		PointOfInterestForCreationDto.cs
+			[Required(ErrorMessage = "You should provide a name value.")]
+			[MaxLength(50)]
+			public string Name { get; set; }
+			
+	// STEP 2: Add custom validations using ModelState in controller as per example below:
+		// POST http://localhost:1028/api/cities/3/pointsofinterest         201 Created
+		public IActionResult CreatePointOfInterest(int cityId, 
+            [FromBody] PointOfInterestForCreationDto poiForCreation) // Serialised from POST body
+        {
+            // Custom validation (not handled by Data Annotations on "Entities" classes)
+            if (poiForCreation.Description == poiForCreation.Name)
+            {
+                ModelState.AddModelError(
+                    "Description",
+                    "The provided description should be different from the name.");
+            }
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+		}
+		
+=================================================
+Entity Framework Core (Code-first approach)
+=================================================
+
+-------------------------------------------------------------------------
+PART 1: Create and Seed SQL Server Database.
+-------------------------------------------------------------------------
+	// STEP 1: Add NuGet Packages:
+		Microsoft.EntityFrameworkCore
+		Microsoft.EntityFrameworkCore.SqlServer
+		Microsoft.EntityFrameworkCore.Tools
+
+	// -------------------------------------------------------------------------
+	// STEP 2: Add "Entiies" namespace folder for database Entity classes
+	// -------------------------------------------------------------------------
+		// A: Add C# class per entity (e.g. City, POI)
+		// B: Initialise properties to empty to avoid null errors
+		// C: "Id" columns are automatically treated as Primary keys but it is good practice to add [Key] and "Identity" attributes for as per example below:		    
+				PointOfInterest.cs:
+					[Key]
+					[DatabaseGenerated(DatabaseGeneratedOption.Identity)] // Generate new Id on add record to database
+					public int Id { get; set; }
+					
+		// D: By convension a relationship property will be created when a navigation property is discovered on a type.
+		//    It is good practice to explicity add [ForeignKey] and "int" FK property.
+				PointOfInterest.cs:
+					[ForeignKey("CityId")]
+					public City City { get; set; } 	// Navigation property (automatically create relationship).
+												    // Considered a Navigation property if the Complex type it points to cannot be mapped as a Scalar type by the database provider.
+													// Will always target the Primary Key of the principal entity (i.e. City).
+					public int CityId { get; set; } // Foreign Key (Recommended to add)
+					
+		// E: Apply Data Validation Annotations at the lowest level to be enforced in the database.
+				PointOfInterest.cs:
+					[Required]
+					[MaxLength(50)]
+					public string Name { get; set; }
+
+	// -------------------------------------------------------------------------
+	// STEP 3: Add "Context" class to interact with our database
+	// -------------------------------------------------------------------------	
+		// NOTE: The context class represents a session with the database used to query and save instances of our "Entity" classes.
+		
+		// A: Create "Contexts" namespace folder
+		
+		// B: Add Context class such as below and see it's contents for example implementation:
+			public class CityInfoContext : DbContext { ... }
+			
+		// C: Register the Context class for dependency injection (Scope lifetime) in the Startup class:
+			Startup.cs:
+				ConfigureServices(IServiceCollection services):
+					Servicesservices.AddDbContext<CityInfoContext>(o =>
+					{          
+						o.UseSqlServer(connectionString);
+					});
+					
+		// D: Execute migrations in Package Manager Console.
+			    Add-Migration CityInfoDBInitialMigration				// Run first time, when database doesn't exist yet and needs to be created from code
+				Update-Database
+
+				Add-Migration CityInfoDBAddPoIDescription				// Schema change
+				Update-Database
+
+				Add-Migration CityInfoDBUpdatePoIDescLength				// Schema change
+				Update-Database
+
+				Add-Migration SampleData								// Master data database seeding from CityInfoContext.OnModelCreating(ModelBuilder modelBuilder)
+				Update-Database
+
+		// E: Create database AND apply all migrations automatically from Program.cs, in the Main() method with bootstraping!
+			  See Program.cs for examples.
+
+		// F: As you add change schema further (i.e. add fields or Data Annotations) to Entity classes, use Package Manager Console to apply migrations as shown under D.
+
+-------------------------------------------------------------------------
+PART 2: Execute CRUD on Database using Repository Pattern
+-------------------------------------------------------------------------	
+	Don't access the DbContext from controllers directly to avoid:
+		- Code duplication
+		- More error-prone code
+		- Harder to test the consuming class
+
+	Use Repository Pattern:
+		An abstraction that reduces compexity and aims to make the code, safe for the repository implementation, persistence ignorant.
+		Persistence ignorant:
+			Switching out the persistence technology is not the main purpose. Choosing the BEST one for each repository method is.
+			Consumers of the repository are not interested in implementation.
+			e.g. 
+				Creating a City - Use EntityFramework.
+				Getting a City - ADO.NET or External Service.
+				
+				
+=================================================
+Auto Mapper
+=================================================
+// 1. Add NuGet Packages:
+	AutoMapper
+	AutoMapper.Extensions.Microsoft.DependencyInjection
+	
+// 2. Update Startup.cs class to register AutoMapper for dependency injection:
+	services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies()); 
+	
+// 3. Add Profiles folder and a <Entity>Profile.cs class per entity.
+
+// 4. Refer to Controller classes for usage

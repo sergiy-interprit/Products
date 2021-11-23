@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Products.Core.Models;
+using Products.Domain.Models;
 using Products.Data.Configurations;
 
 namespace Products.Data

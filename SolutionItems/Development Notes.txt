@@ -3,6 +3,13 @@ https://github.com/alopes2/Medium-MyMusic
 
 https://stackoverflow.com/questions/59199593/net-core-3-0-possible-object-cycle-was-detected-which-is-not-supported
 
+
+https://www.c-sharpcorner.com/article/exception-handling-3-in-asp-net-core-mvc/
+
+
+https://codeburst.io/jwt-auth-in-asp-net-core-148fb72bed03
+https://github.com/dotnet-labs/JwtAuthDemo
+
 =================================
 Entity Framework
 =================================
@@ -22,39 +29,35 @@ https://localhost:44372/swagger/v1/swagger.json
 https://localhost:44372/swagger/index.html
 
 
-public partial class SeedAccountsAndProductsTable : Migration
-{
-	protected override void Up(MigrationBuilder migrationBuilder)
-	{
-		migrationBuilder
-			.Sql("INSERT INTO Accounts (Name, Description) VALUES ('Account1', 'Description of Account1.')");
-		migrationBuilder
-			.Sql("INSERT INTO Accounts (Name, Description) VALUES ('Account2', 'Description of Account2.')");
+=================================
+JWT 
+=================================
+https://jasonwatmore.com/post/2021/04/30/net-5-jwt-authentication-tutorial-with-example-api
 
-		migrationBuilder
-			.Sql("INSERT INTO Products (Name, Quantity, UnitPrice, AccountId) " +
-				"VALUES ('Product1', 5, 2.1, (SELECT Id FROM Accounts WHERE Name = 'Account1'))");
-		migrationBuilder
-			.Sql("INSERT INTO Products (Name, Quantity, UnitPrice, AccountId) " +
-				"VALUES ('Product2', 6, 15.7, (SELECT Id FROM Accounts WHERE Name = 'Account1'))");
+Products.API
+	Microsoft.AspNetCore.Authentication.JwtBearer (5.0.12)
+	System.IdentityModel.Tokens.Jwt
 
-		migrationBuilder
-			.Sql("INSERT INTO Products (Name, Quantity, UnitPrice, AccountId) " +
-				"VALUES ('Product3', 10, 18.4, (SELECT Id FROM Accounts WHERE Name = 'Account2'))");
-		migrationBuilder
-			.Sql("INSERT INTO Products (Name, Quantity, UnitPrice, AccountId) " +
-				"VALUES ('Product4', 11, 19.3, (SELECT Id FROM Accounts WHERE Name = 'Account2'))");
-		migrationBuilder
-			.Sql("INSERT INTO Products (Name, Quantity, UnitPrice, AccountId) " +
-				"VALUES ('Product5', 12, 20.9, (SELECT Id FROM Accounts WHERE Name = 'Account2'))");
-	}
+=================================
+TODO:
+=================================
+- Typically you would be using Azure Identity Provider (not SQL Store)
 
-	protected override void Down(MigrationBuilder migrationBuilder)
-	{
-		migrationBuilder
-			.Sql("DELETE FROM Products");
+- Rename Core to Domain
+- Fix Products Controller to stop returining full account definitions
+- Upgrade all projects to .NET 5.0 and EF Packages from 3.0 to latest possible
 
-		migrationBuilder
-			.Sql("DELETE FROM Accounts");
-	}
-}
+- Create Products.UnitTests
+	- Core/Domain			(don't need to mock)
+	- Services level
+
+	- Using mocks and dependency injection
+
+- Create Products.AutomationTests
+	- API level
+
+
+- Make DTO project on it's own : Products.API.DTOs
+- Move the rest of the login in API to Services
+	> Mapping
+	> Validators

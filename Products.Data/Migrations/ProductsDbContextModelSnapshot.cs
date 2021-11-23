@@ -19,7 +19,7 @@ namespace Products.Data.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("Products.Core.Models.Account", b =>
+            modelBuilder.Entity("Products.Domain.Models.Account", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -42,7 +42,7 @@ namespace Products.Data.Migrations
                     b.ToTable("Accounts");
                 });
 
-            modelBuilder.Entity("Products.Core.Models.Product", b =>
+            modelBuilder.Entity("Products.Domain.Models.Product", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -81,9 +81,9 @@ namespace Products.Data.Migrations
                     b.ToTable("Products");
                 });
 
-            modelBuilder.Entity("Products.Core.Models.Product", b =>
+            modelBuilder.Entity("Products.Domain.Models.Product", b =>
                 {
-                    b.HasOne("Products.Core.Models.Account", "Account")
+                    b.HasOne("Products.Domain.Models.Account", "Account")
                         .WithMany("Products")
                         .HasForeignKey("AccountId")
                         .OnDelete(DeleteBehavior.Cascade)

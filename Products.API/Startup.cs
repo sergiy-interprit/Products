@@ -7,9 +7,10 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.OpenApi.Models;
 using Products.Data;
-using Products.Core;
+using Products.Domain;
 using Products.Services;
-using Products.Core.Services;
+using Products.Domain.Services;
+using Products.API.Infrastructure;
 
 namespace Products.API
 {
@@ -47,6 +48,9 @@ namespace Products.API
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Products API", Version = "v1", });
             });
+
+            var jwtTokenConfig = _configuration.GetSection("jwtTokenConfig").Get<JwtTokenConfig>();
+            services.AddSingleton(jwtTokenConfig);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

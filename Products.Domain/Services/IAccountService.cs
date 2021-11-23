@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Products.Core.Models;
+using Products.Domain.Models;
 
-namespace Products.Core.Services
+namespace Products.Domain.Services
 {
     public interface IAccountService
     {

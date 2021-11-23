@@ -1,4 +1,4 @@
-using Products.Core.Models;
+using Products.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

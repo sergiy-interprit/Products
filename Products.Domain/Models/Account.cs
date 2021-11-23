@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Products.Core.Models
+namespace Products.Domain.Models
 {
     public class Account
     {

@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Products.Core;
-using Products.Core.Models;
-using Products.Core.Services;
+using Products.Domain;
+using Products.Domain.Models;
+using Products.Domain.Services;
 
 namespace Products.Services
 {

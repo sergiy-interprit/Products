@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Products.Core.Models;
+using Products.Domain.Models;
 
-namespace Products.Core.Repositories
+namespace Products.Domain.Repositories
 {
     public interface IProductRepository : IRepository<Product>
     {

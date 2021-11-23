@@ -2,8 +2,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using Products.Core.Models;
-using Products.Core.Repositories;
+using Products.Domain.Models;
+using Products.Domain.Repositories;
 
 namespace Products.Data.Repositories
 {

@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Products.API.Models;
-using Products.Core.Models;
-using Products.Core.Services;
+using Products.Domain.Models;
+using Products.Domain.Services;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Products.API.Validations;

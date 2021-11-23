@@ -1,6 +1,6 @@
 using System.Threading.Tasks;
-using Products.Core;
-using Products.Core.Repositories;
+using Products.Domain;
+using Products.Domain.Repositories;
 using Products.Data.Repositories;
 
 namespace Products.Data

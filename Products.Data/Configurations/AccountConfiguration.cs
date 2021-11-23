@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Products.Core.Models;
+using Products.Domain.Models;
 
 namespace Products.Data.Configurations
 {

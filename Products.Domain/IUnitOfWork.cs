@@ -1,8 +1,8 @@
 using System;
 using System.Threading.Tasks;
-using Products.Core.Repositories;
+using Products.Domain.Repositories;
 
-namespace Products.Core
+namespace Products.Domain
 {
     public interface IUnitOfWork : IDisposable
     {

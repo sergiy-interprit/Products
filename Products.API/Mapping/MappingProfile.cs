@@ -1,6 +1,6 @@
 using AutoMapper;
 using Products.API.Models;
-using Products.Core.Models;
+using Products.Domain.Models;
 using System.Linq;
 
 namespace Products.API.Mapping

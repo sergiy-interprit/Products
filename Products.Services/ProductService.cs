@@ -6,6 +6,7 @@ using Products.Services.Interfaces;
 
 namespace Products.Services
 {
+    // TODO: Move Mapping and Validation business logic from ProductsController to here!
     public class ProductService : IProductService
     {
         private readonly IUnitOfWork _unitOfWork;

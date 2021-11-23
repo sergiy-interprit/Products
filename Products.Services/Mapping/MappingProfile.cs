@@ -14,16 +14,12 @@ namespace Products.Services.Mapping
                 //.ForMember(x => x.Products.Select(y => y.AccountId), opt => opt.Ignore())
                 .ReverseMap();
 
-            CreateMap<Account, AccountWithoutProductsDto>();
-
+            CreateMap<Account, AccountWithoutProductsDto>().ReverseMap();
             CreateMap<Product, ProductDto>().ReverseMap();
 
             // DTO to Domain
-            //CreateMap<AccountDto, Account>();
             CreateMap<SaveAccountDto, Account>().ReverseMap();
-
-            //CreateMap<ProductDto, Product>();
-            CreateMap<SaveProductDto, Product>();
+            CreateMap<SaveProductDto, Product>().ReverseMap();
         }
     }
 }

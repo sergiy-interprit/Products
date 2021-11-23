@@ -15,8 +15,5 @@ namespace Products.API.Infrastructure
 
         [JsonPropertyName("accessTokenExpiration")]
         public int AccessTokenExpiration { get; set; }
-
-        [JsonPropertyName("refreshTokenExpiration")]
-        public int RefreshTokenExpiration { get; set; }
     }
 }

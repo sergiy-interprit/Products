@@ -11,7 +11,7 @@ namespace Products.API.Services
 
     public class UserService : IUserService
     {
-        // Test data
+        // TODO: Replace temporary test data
         private readonly IDictionary<string, string> _users = 
             new Dictionary<string, string>
             {

@@ -12,6 +12,7 @@ namespace Products.IntegrationTests
         public HttpClient Client { get; }
         public IServiceProvider ServiceProvider { get; }
 
+        // TODO: Fix startup issue!
         public TestHostFixture()
         {
             var builder = Program.CreateHostBuilder(null)
@@ -20,9 +21,12 @@ namespace Products.IntegrationTests
                     webHost.UseTestServer();
                     webHost.UseEnvironment("Test");
                 });
-            var host = builder.Start();
+           
+            var host = builder.Start();       
             ServiceProvider = host.Services;
+            
             Client = host.GetTestClient();
+            
             Console.WriteLine("TEST Host Started.");
         }
 

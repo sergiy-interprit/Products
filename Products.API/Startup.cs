@@ -78,7 +78,6 @@ namespace Products.API
                 };
             });
             services.AddSingleton<IJwtAuthManager, JwtAuthManager>();
-            services.AddHostedService<JwtRefreshTokenCache>();
             services.AddScoped<IUserService, UserService>();
         }
 

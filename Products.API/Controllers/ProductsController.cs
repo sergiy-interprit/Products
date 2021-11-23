@@ -10,7 +10,6 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace Products.API.Controllers
 {
-    // TODO: Remove full Account with Products on Get operations!
     // TODO: Move validation logic to Services layer!
 
     [Route("api/[controller]")]

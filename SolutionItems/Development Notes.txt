@@ -1,14 +1,6 @@
-https://medium.com/swlh/building-a-nice-multi-layer-net-core-3-api-c68a9ef16368
-https://github.com/alopes2/Medium-MyMusic
-
-https://stackoverflow.com/questions/59199593/net-core-3-0-possible-object-cycle-was-detected-which-is-not-supported
-
-https://www.c-sharpcorner.com/article/exception-handling-3-in-asp-net-core-mvc/
-
 =================================
 Entity Framework
 =================================
-Ensure Microsoft.EntityFrameworkCore.Tools NuGet package is added.
 
 From Package Manager Console > select Default project as "Products.Data":
 	Add-Migration InitialMigration
@@ -23,12 +15,6 @@ Swagger
 https://localhost:44372/swagger/v1/swagger.json
 https://localhost:44372/swagger/index.html
 
-
-=================================
-JWT 
-=================================
-https://codeburst.io/jwt-auth-in-asp-net-core-148fb72bed03
-https://github.com/dotnet-labs/JwtAuthDemo
 
 =================================
 TODO

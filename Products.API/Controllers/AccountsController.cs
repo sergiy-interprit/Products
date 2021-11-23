@@ -7,11 +7,13 @@ using System.Threading.Tasks;
 using Products.Services.Validators;
 using Microsoft.AspNetCore.JsonPatch;
 using Products.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Products.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class AccountsController : ControllerBase
     {
         private readonly IAccountService _accountService;

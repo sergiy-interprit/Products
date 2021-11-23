@@ -7,16 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="AuthControllerTests.cs" />
-    <Compile Remove="JwtAuthManagerTests.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="AuthControllerTests.cs" />
-    <None Include="JwtAuthManagerTests.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="5.0.4" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.9.1" />
     <PackageReference Include="Moq" Version="4.16.1" />

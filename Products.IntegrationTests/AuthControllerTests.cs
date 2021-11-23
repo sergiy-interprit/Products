@@ -8,17 +8,17 @@ using System.Security.Claims;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
-using Products.Controllers;
-using Products.Infrastructure;
-using Products.Services;
+using Products.API.Controllers;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Products.API.Infrastructure;
+using Products.API.Services;
 
 namespace Products.IntegrationTests
 {
     [TestClass]
-    public class AccountControllerTests
+    public class AuthControllerTests
     {
         private readonly TestHostFixture _testHostFixture = new TestHostFixture();
         private HttpClient _httpClient;
@@ -39,7 +39,7 @@ namespace Products.IntegrationTests
                 UserName = "admin",
                 Password = "invalidPassword"
             };
-            var response = await _httpClient.PostAsync("api/account/login",
+            var response = await _httpClient.PostAsync("api/auth/login",
                 new StringContent(JsonSerializer.Serialize(credentials), Encoding.UTF8, MediaTypeNames.Application.Json));
             Assert.AreEqual(HttpStatusCode.Unauthorized, response.StatusCode);
         }
@@ -52,7 +52,7 @@ namespace Products.IntegrationTests
                 UserName = "admin",
                 Password = "securePassword"
             };
-            var loginResponse = await _httpClient.PostAsync("api/account/login",
+            var loginResponse = await _httpClient.PostAsync("api/auth/login",
                 new StringContent(JsonSerializer.Serialize(credentials), Encoding.UTF8, MediaTypeNames.Application.Json));
             Assert.AreEqual(HttpStatusCode.OK, loginResponse.StatusCode);
 
@@ -79,7 +79,7 @@ namespace Products.IntegrationTests
                 UserName = "admin",
                 Password = "securePassword"
             };
-            var loginResponse = await _httpClient.PostAsync("api/account/login",
+            var loginResponse = await _httpClient.PostAsync("api/auth/login",
                 new StringContent(JsonSerializer.Serialize(credentials), Encoding.UTF8, MediaTypeNames.Application.Json));
             var loginResponseContent = await loginResponse.Content.ReadAsStringAsync();
             var loginResult = JsonSerializer.Deserialize<LoginResult>(loginResponseContent);
@@ -88,7 +88,7 @@ namespace Products.IntegrationTests
             Assert.IsTrue(jwtAuthManager.UsersRefreshTokensReadOnlyDictionary.ContainsKey(loginResult.RefreshToken));
 
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(JwtBearerDefaults.AuthenticationScheme, loginResult.AccessToken);
-            var logoutResponse = await _httpClient.PostAsync("api/account/logout", null);
+            var logoutResponse = await _httpClient.PostAsync("api/auth/logout", null);
             Assert.AreEqual(HttpStatusCode.OK, logoutResponse.StatusCode);
             Assert.IsFalse(jwtAuthManager.UsersRefreshTokensReadOnlyDictionary.ContainsKey(loginResult.RefreshToken));
         }
@@ -110,7 +110,7 @@ namespace Products.IntegrationTests
             {
                 RefreshToken = jwtResult.RefreshToken.TokenString
             };
-            var response = await _httpClient.PostAsync("api/account/refresh-token",
+            var response = await _httpClient.PostAsync("api/auth/refresh-token",
                 new StringContent(JsonSerializer.Serialize(refreshRequest), Encoding.UTF8, MediaTypeNames.Application.Json));
             var responseContent = await response.Content.ReadAsStringAsync();
             var result = JsonSerializer.Deserialize<LoginResult>(responseContent);
@@ -142,7 +142,7 @@ namespace Products.IntegrationTests
             {
                 RefreshToken = jwtResult1.RefreshToken.TokenString
             };
-            var response = await _httpClient.PostAsync("api/account/refresh-token",
+            var response = await _httpClient.PostAsync("api/auth/refresh-token",
                 new StringContent(JsonSerializer.Serialize(refreshRequest), Encoding.UTF8, MediaTypeNames.Application.Json)); // expired Refresh token
             var responseContent = await response.Content.ReadAsStringAsync();
             Assert.AreEqual(HttpStatusCode.Unauthorized, response.StatusCode);
@@ -163,7 +163,7 @@ namespace Products.IntegrationTests
 
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(JwtBearerDefaults.AuthenticationScheme, jwtResult.AccessToken);
             var request = new ImpersonationRequest { UserName = "test1" };
-            var response = await _httpClient.PostAsync("api/account/impersonation",
+            var response = await _httpClient.PostAsync("api/auth/impersonation",
                 new StringContent(JsonSerializer.Serialize(request), Encoding.UTF8, MediaTypeNames.Application.Json));
             var responseContent = await response.Content.ReadAsStringAsync();
             var result = JsonSerializer.Deserialize<LoginResult>(responseContent);
@@ -196,7 +196,7 @@ namespace Products.IntegrationTests
 
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(JwtBearerDefaults.AuthenticationScheme, jwtResult.AccessToken);
             var request = new ImpersonationRequest { UserName = "test2" };
-            var response = await _httpClient.PostAsync("api/account/impersonation",
+            var response = await _httpClient.PostAsync("api/auth/impersonation",
                 new StringContent(JsonSerializer.Serialize(request), Encoding.UTF8, MediaTypeNames.Application.Json));
 
             Assert.AreEqual(HttpStatusCode.Forbidden, response.StatusCode);
@@ -217,7 +217,7 @@ namespace Products.IntegrationTests
             var jwtResult = jwtAuthManager.GenerateTokens(userName, claims, DateTime.Now.AddMinutes(-1));
 
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(JwtBearerDefaults.AuthenticationScheme, jwtResult.AccessToken);
-            var response = await _httpClient.PostAsync("api/account/stop-impersonation", null);
+            var response = await _httpClient.PostAsync("api/auth/stop-impersonation", null);
             var responseContent = await response.Content.ReadAsStringAsync();
             var result = JsonSerializer.Deserialize<LoginResult>(responseContent);
 
@@ -249,7 +249,7 @@ namespace Products.IntegrationTests
 
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(JwtBearerDefaults.AuthenticationScheme, jwtResult.AccessToken);
             var request = new ImpersonationRequest { UserName = "test2" };
-            var response = await _httpClient.PostAsync("api/account/stop-impersonation",
+            var response = await _httpClient.PostAsync("api/auth/stop-impersonation",
                 new StringContent(JsonSerializer.Serialize(request), Encoding.UTF8, MediaTypeNames.Application.Json));
 
             Assert.AreEqual(HttpStatusCode.BadRequest, response.StatusCode);

@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 
-namespace JwtAuthDemo.Controllers
+namespace Products.API.Controllers
 {
     [ApiController]
     [Authorize]

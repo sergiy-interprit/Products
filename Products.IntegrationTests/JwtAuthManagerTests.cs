@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Security.Claims;
-using Products.Infrastructure;
-using Products.Services;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Products.API.Infrastructure;
+using Products.API.Services;
 
 namespace Products.IntegrationTests
 {

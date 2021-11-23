@@ -6,6 +6,7 @@ using Products.API.Dto;
 using Products.Services.Validators;
 using Products.Domain.Models;
 using Products.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Products.API.Controllers
 {
@@ -14,6 +15,7 @@ namespace Products.API.Controllers
 
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class ProductsController : ControllerBase
     {
         private readonly IProductService _productService;

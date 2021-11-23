@@ -1,7 +1,7 @@
 using FluentValidation;
-using Products.API.Models;
+using Products.API.Dto;
 
-namespace Products.API.Validations
+namespace Products.Services.Validators
 {
     public class SaveProductDtoValidator : AbstractValidator<SaveProductDto>
     {

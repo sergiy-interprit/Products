@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Products.Domain;
 using Products.Domain.Models;
-using Products.Domain.Services;
+using Products.Services.Interfaces;
 
 namespace Products.Services
 {

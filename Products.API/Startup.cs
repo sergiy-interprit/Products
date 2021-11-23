@@ -9,7 +9,7 @@ using Microsoft.OpenApi.Models;
 using Products.Data;
 using Products.Domain;
 using Products.Services;
-using Products.Domain.Services;
+using Products.Services.Interfaces;
 using Products.API.Infrastructure;
 
 namespace Products.API
@@ -62,7 +62,7 @@ namespace Products.API
             }
             else
             {
-                //app.UseExceptionHandler();
+                app.UseExceptionHandler();
 
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
@@ -70,7 +70,7 @@ namespace Products.API
 
             app.UseStatusCodePages();
             
-            //app.UseHttpsRedirection();
+            app.UseHttpsRedirection();
 
             app.UseRouting();
 

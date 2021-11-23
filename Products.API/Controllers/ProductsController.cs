@@ -2,14 +2,15 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using Products.API.Models;
-using Products.API.Validations;
+using Products.API.Dto;
+using Products.Services.Validators;
 using Products.Domain.Models;
-using Products.Domain.Services;
+using Products.Services.Interfaces;
 
 namespace Products.API.Controllers
 {
     // TODO: Remove full Account with Products on Get operations!
+    // TODO: Move validation logic to Services layer!
 
     [Route("api/[controller]")]
     [ApiController]

@@ -1,6 +1,6 @@
 using System;
 
-namespace Products.API.Models
+namespace Products.API.Dto
 {
     public class SaveProductDto
     {

@@ -6,6 +6,49 @@
 	},
 	"item": [
 		{
+			"name": "JWT Token",
+			"item": [
+				{
+					"name": "POST Token",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"Test\",\r\n    \"password\": \"Description of Account1.\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:44372/api/token",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44372",
+							"path": [
+								"api",
+								"token"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "Accounts",
 			"item": [
 				{
@@ -55,7 +98,7 @@
 							}
 						],
 						"url": {
-							"raw": "https://localhost:44372/api/accounts/3?includeProducts=true",
+							"raw": "https://localhost:44372/api/accounts/1?includeProducts=true",
 							"protocol": "https",
 							"host": [
 								"localhost"
@@ -64,7 +107,7 @@
 							"path": [
 								"api",
 								"accounts",
-								"3"
+								"1"
 							],
 							"query": [
 								{
@@ -93,7 +136,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"id\": 1,\n    \"name\": \"Account1\",\n    \"description\": \"Description of Account1.\"\n}"
+							"raw": "{\n    \"name\": \"Account3\",\n    \"description\": \"Description of Account3.\"\n}"
 						},
 						"url": {
 							"raw": "https://localhost:44372/api/accounts",
@@ -435,7 +478,7 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "https://localhost:44372/api/accounts/3",
+							"raw": "https://localhost:44372/api/accounts/99",
 							"protocol": "https",
 							"host": [
 								"localhost"
@@ -444,7 +487,7 @@
 							"path": [
 								"api",
 								"accounts",
-								"3"
+								"99"
 							]
 						}
 					},

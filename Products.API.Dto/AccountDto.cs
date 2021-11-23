@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Products.API.Models
+namespace Products.API.Dto
 {
     public class AccountDto 
     {

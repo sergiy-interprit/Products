@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Products.API.Models
+namespace Products.API.Dto
 {
     public class ProductDto
     {
@@ -14,10 +14,10 @@ namespace Products.API.Models
 
         public DateTime DateAdded { get; set; }
 
-        public AccountDto Account { get; set; }
+        //public AccountDto Account { get; set; }
 
         //public AccountWithoutProductsDto Account { get; set; }
 
-        //public int AccountId { get; set; }
+        public int AccountId { get; set; }
     }
 }

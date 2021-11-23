@@ -1,9 +1,9 @@
 using AutoMapper;
-using Products.API.Models;
+using Products.API.Dto;
 using Products.Domain.Models;
 using System.Linq;
 
-namespace Products.API.Mapping
+namespace Products.Services.Mapping
 {
     public class MappingProfile : Profile
     {

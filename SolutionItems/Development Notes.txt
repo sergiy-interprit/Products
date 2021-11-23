@@ -3,12 +3,7 @@ https://github.com/alopes2/Medium-MyMusic
 
 https://stackoverflow.com/questions/59199593/net-core-3-0-possible-object-cycle-was-detected-which-is-not-supported
 
-
 https://www.c-sharpcorner.com/article/exception-handling-3-in-asp-net-core-mvc/
-
-
-https://codeburst.io/jwt-auth-in-asp-net-core-148fb72bed03
-https://github.com/dotnet-labs/JwtAuthDemo
 
 =================================
 Entity Framework
@@ -32,32 +27,18 @@ https://localhost:44372/swagger/index.html
 =================================
 JWT 
 =================================
-https://jasonwatmore.com/post/2021/04/30/net-5-jwt-authentication-tutorial-with-example-api
-
-Products.API
-	Microsoft.AspNetCore.Authentication.JwtBearer (5.0.12)
-	System.IdentityModel.Tokens.Jwt
+https://codeburst.io/jwt-auth-in-asp-net-core-148fb72bed03
+https://github.com/dotnet-labs/JwtAuthDemo
 
 =================================
-TODO:
+TODO
 =================================
-- Typically you would be using Azure Identity Provider (not SQL Store)
+- Complete remaining controller TODO's
 
-- Rename Core to Domain
-- Fix Products Controller to stop returining full account definitions
-- Upgrade all projects to .NET 5.0 and EF Packages from 3.0 to latest possible
+- Use Azure Identity Provider
 
-- Create Products.UnitTests
-	- Core/Domain			(don't need to mock)
-	- Services level
+- Create Unit Tests
+	- Core/Domain layer
+	- Services layer 
 
-	- Using mocks and dependency injection
-
-- Create Products.AutomationTests
-	- API level
-
-
-- Make DTO project on it's own : Products.API.DTOs
-- Move the rest of the login in API to Services
-	> Mapping
-	> Validators
+- Fix Integration Tests

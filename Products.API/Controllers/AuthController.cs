@@ -1,7 +1,5 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations;
 using System.Security.Claims;
-using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using Products.API.Infrastructure;
 using Products.API.Services;
@@ -10,6 +8,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
+using Products.Services.Interfaces;
+using Products.API.Dto.Infrastructure;
 
 namespace Products.API.Controllers
 {
@@ -52,6 +52,7 @@ namespace Products.API.Controllers
 
             var jwtResult = _jwtAuthManager.GenerateTokens(request.UserName, claims, DateTime.Now);
             _logger.LogInformation($"User [{request.UserName}] logged in the system.");
+            
             return Ok(new LoginResult
             {
                 UserName = request.UserName,
@@ -184,46 +185,5 @@ namespace Products.API.Controllers
                 RefreshToken = jwtResult.RefreshToken.TokenString
             });
         }
-    }
-
-    public class LoginRequest
-    {
-        [Required]
-        [JsonPropertyName("username")]
-        public string UserName { get; set; }
-
-        [Required]
-        [JsonPropertyName("password")]
-        public string Password { get; set; }
-    }
-
-    public class LoginResult
-    {
-        [JsonPropertyName("username")]
-        public string UserName { get; set; }
-
-        [JsonPropertyName("role")]
-        public string Role { get; set; }
-
-        [JsonPropertyName("originalUserName")]
-        public string OriginalUserName { get; set; }
-
-        [JsonPropertyName("accessToken")]
-        public string AccessToken { get; set; }
-
-        [JsonPropertyName("refreshToken")]
-        public string RefreshToken { get; set; }
-    }
-
-    public class RefreshTokenRequest
-    {
-        [JsonPropertyName("refreshToken")]
-        public string RefreshToken { get; set; }
-    }
-
-    public class ImpersonationRequest
-    {
-        [JsonPropertyName("username")]
-        public string UserName { get; set; }
     }
 }

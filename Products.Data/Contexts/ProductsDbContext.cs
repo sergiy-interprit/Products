@@ -2,7 +2,7 @@
 using Products.Domain.Models;
 using Products.Data.Configurations;
 
-namespace Products.Data
+namespace Products.Data.Contexts
 {
     public class ProductsDbContext : DbContext
     {

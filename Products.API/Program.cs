@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using NLog.Web;
-using Products.Data;
+using Products.Data.Contexts;
 using System;
 
 namespace Products.API

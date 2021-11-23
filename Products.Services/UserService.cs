@@ -1,35 +1,32 @@
 ﻿using System.Collections.Generic;
-using Microsoft.Extensions.Logging;
+using Products.Services.Interfaces;
 
 namespace Products.API.Services
 {
-    public interface IUserService
+    public static class UserRoles
     {
-        bool IsAnExistingUser(string userName);
-        bool IsValidUserCredentials(string userName, string password);
-        string GetUserRole(string userName);
+        public const string Admin = nameof(Admin);
+        public const string BasicUser = nameof(BasicUser);
     }
 
     public class UserService : IUserService
     {
-        private readonly ILogger<UserService> _logger;
+        // Test data
+        private readonly IDictionary<string, string> _users = 
+            new Dictionary<string, string>
+            {
+                { "test1", "password1" },
+                { "test2", "password2" },
+                { "admin", "securePassword" }
+            };
 
-        private readonly IDictionary<string, string> _users = new Dictionary<string, string>
+        // TODO: Inject your database here for user validation
+        public UserService()
         {
-            { "test1", "password1" },
-            { "test2", "password2" },
-            { "admin", "securePassword" }
-        };
-
-        // inject your database here for user validation
-        public UserService(ILogger<UserService> logger)
-        {
-            _logger = logger;
         }
 
         public bool IsValidUserCredentials(string userName, string password)
         {
-            _logger.LogInformation($"Validating user [{userName}]");
             if (string.IsNullOrWhiteSpace(userName))
             {
                 return false;
@@ -62,11 +59,5 @@ namespace Products.API.Services
 
             return UserRoles.BasicUser;
         }
-    }
-
-    public static class UserRoles
-    {
-        public const string Admin = nameof(Admin);
-        public const string BasicUser = nameof(BasicUser);
     }
 }

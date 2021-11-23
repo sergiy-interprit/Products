@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Products.API.Services;
+using Products.Data.Contexts;
 
 namespace Products.API
 {
@@ -53,6 +54,7 @@ namespace Products.API
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Products API", Version = "v1", });
             });
 
+            // JWT
             var jwtTokenConfig = _configuration.GetSection("jwtTokenConfig").Get<JwtTokenConfig>();
             services.AddSingleton(jwtTokenConfig);
             services.AddAuthentication(x =>

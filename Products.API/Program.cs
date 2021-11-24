@@ -1,10 +1,12 @@
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using NLog.Web;
 using Products.Data.Contexts;
 using System;
+using System.Security.Authentication;
 
 namespace Products.API
 {
@@ -56,7 +58,18 @@ namespace Products.API
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    webBuilder.UseStartup<Startup>()
+                    webBuilder.ConfigureKestrel(serverOptions =>
+                    {
+                        serverOptions.Limits.MinRequestBodyDataRate = new MinDataRate(100, TimeSpan.FromSeconds(10));
+                        serverOptions.Limits.MinResponseDataRate = new MinDataRate(100, TimeSpan.FromSeconds(10));
+                        serverOptions.Limits.KeepAliveTimeout = TimeSpan.FromMinutes(2);
+                        serverOptions.Limits.RequestHeadersTimeout = TimeSpan.FromMinutes(1);
+                        serverOptions.ConfigureHttpsDefaults(listenOptions =>
+                        {
+                            listenOptions.SslProtocols = SslProtocols.Tls12;
+                        });
+                    })
+                    .UseStartup<Startup>()
                     .UseNLog(); // Added to use NLog as logging provider
                 });
     }

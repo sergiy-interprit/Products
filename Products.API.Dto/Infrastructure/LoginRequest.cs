@@ -7,7 +7,7 @@ namespace Products.API.Dto.Infrastructure
     {
         [Required]
         [JsonPropertyName("username")]
-        public string UserName { get; set; }
+        public string Username { get; set; }
 
         [Required]
         [JsonPropertyName("password")]

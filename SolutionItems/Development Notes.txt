@@ -27,4 +27,4 @@ TODO
 	- Core/Domain layer
 	- Services layer 
 
-- Fix Integration Tests
+- Define more Integration Tests

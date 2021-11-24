@@ -5,7 +5,7 @@ namespace Products.API.Dto.Infrastructure
     public class LoginResult
     {
         [JsonPropertyName("username")]
-        public string UserName { get; set; }
+        public string Username { get; set; }
 
         [JsonPropertyName("role")]
         public string Role { get; set; }

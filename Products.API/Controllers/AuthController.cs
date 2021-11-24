@@ -34,25 +34,25 @@ namespace Products.API.Controllers
                 return BadRequest();
             }
 
-            if (!_userService.IsValidUserCredentials(request.UserName, request.Password))
+            if (!_userService.IsValidUserCredentials(request.Username, request.Password))
             {
                 return Unauthorized();
             }
 
-            var role = _userService.GetUserRole(request.UserName);
+            var role = _userService.GetUserRole(request.Username);
             var claims = new[]
             {
-                new Claim(ClaimTypes.Name,request.UserName),
+                new Claim(ClaimTypes.Name,request.Username),
                 new Claim(ClaimTypes.Role, role)
             };
 
-            var jwtResult = _jwtAuthManager.GenerateJwtToken(request.UserName, claims, DateTime.Now);
+            var jwtResult = _jwtAuthManager.GenerateJwtToken(request.Username, claims, DateTime.Now);
 
-            _logger.LogInformation($"User [{request.UserName}] logged in the system.");
+            _logger.LogInformation($"User [{request.Username}] logged in the system.");
             
             return Ok(new LoginResult
             {
-                UserName = request.UserName,
+                Username = request.Username,
                 Role = role,
                 AccessToken = jwtResult.AccessToken
             });

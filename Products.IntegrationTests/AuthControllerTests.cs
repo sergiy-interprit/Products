@@ -33,7 +33,7 @@ namespace Products.IntegrationTests
         {
             var credentials = new LoginRequest
             {
-                UserName = "admin",
+                Username = "admin",
                 Password = "invalidPassword"
             };
             var response = await _httpClient.PostAsync("api/auth/login",
@@ -47,7 +47,7 @@ namespace Products.IntegrationTests
         {
             var credentials = new LoginRequest
             {
-                UserName = "admin",
+                Username = "admin",
                 Password = "securePassword"
             };
 
@@ -58,14 +58,14 @@ namespace Products.IntegrationTests
             var loginResponseContent = await loginResponse.Content.ReadAsStringAsync();
             var loginResult = JsonSerializer.Deserialize<LoginResult>(loginResponseContent);
             
-            Assert.AreEqual(credentials.UserName, loginResult.UserName);
+            Assert.AreEqual(credentials.Username, loginResult.Username);
             Assert.AreEqual(UserRoles.Admin, loginResult.Role);
             Assert.IsFalse(string.IsNullOrWhiteSpace(loginResult.AccessToken));
 
             var jwtAuthManager = _serviceProvider.GetRequiredService<IJwtAuthManager>();
             var (principal, jwtSecurityToken) = jwtAuthManager.DecodeJwtToken(loginResult.AccessToken);
             
-            Assert.AreEqual(credentials.UserName, principal.Identity.Name);
+            Assert.AreEqual(credentials.Username, principal.Identity.Name);
             Assert.AreEqual(UserRoles.Admin, principal.FindFirst(ClaimTypes.Role).Value);
             Assert.IsNotNull(jwtSecurityToken);
         }

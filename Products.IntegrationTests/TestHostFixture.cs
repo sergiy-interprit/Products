@@ -12,7 +12,6 @@ namespace Products.IntegrationTests
         public HttpClient Client { get; }
         public IServiceProvider ServiceProvider { get; }
 
-        // TODO: Fix startup issue!
         public TestHostFixture()
         {
             var builder = Program.CreateHostBuilder(null)

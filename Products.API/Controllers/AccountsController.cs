@@ -8,6 +8,7 @@ using Products.Services.Validators;
 using Microsoft.AspNetCore.JsonPatch;
 using Products.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
+using Products.Domain.Constants;
 
 namespace Products.API.Controllers
 {
@@ -57,6 +58,7 @@ namespace Products.API.Controllers
         }
 
         [HttpPost("")]
+        [Authorize(Roles = UserRoles.Admin)]
         public async Task<ActionResult> CreateAccount([FromBody] SaveAccountDto saveAccountDto)
         {
             var result = await _accountService.CreateAccount(saveAccountDto);

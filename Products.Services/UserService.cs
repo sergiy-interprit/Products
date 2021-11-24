@@ -1,14 +1,9 @@
 ﻿using System.Collections.Generic;
+using Products.Domain.Constants;
 using Products.Services.Interfaces;
 
 namespace Products.API.Services
 {
-    public static class UserRoles
-    {
-        public const string Admin = nameof(Admin);
-        public const string BasicUser = nameof(BasicUser);
-    }
-
     public class UserService : IUserService
     {
         // TODO: Replace temporary test data
@@ -25,6 +20,11 @@ namespace Products.API.Services
         {
         }
 
+        public bool IsAnExistingUser(string userName)
+        {
+            return _users.ContainsKey(userName);
+        }
+
         public bool IsValidUserCredentials(string userName, string password)
         {
             if (string.IsNullOrWhiteSpace(userName))
@@ -38,11 +38,6 @@ namespace Products.API.Services
             }
 
             return _users.TryGetValue(userName, out var p) && p == password;
-        }
-
-        public bool IsAnExistingUser(string userName)
-        {
-            return _users.ContainsKey(userName);
         }
 
         public string GetUserRole(string userName)

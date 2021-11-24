@@ -36,6 +36,7 @@ namespace Products.IntegrationTests
                 Username = "admin",
                 Password = "invalidPassword"
             };
+
             var response = await _httpClient.PostAsync("api/auth/login",
                 new StringContent(JsonSerializer.Serialize(credentials), Encoding.UTF8, MediaTypeNames.Application.Json));
             

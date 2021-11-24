@@ -71,6 +71,7 @@ namespace Products.API.Controllers
         }
 
         [HttpPut("{id}")]
+        [Authorize(Roles = UserRoles.Admin)]
         public async Task<ActionResult> UpdateAccount(int id, [FromBody] SaveAccountDto saveAccountDto)
         {
             var result = await _accountService.UpdateAccount(id, saveAccountDto);
@@ -89,6 +90,7 @@ namespace Products.API.Controllers
 
         // TODO: Move Validation and Mapping business logic to Services layer!
         [HttpPatch("{id}")]
+        [Authorize(Roles = UserRoles.Admin)]
         public async Task<ActionResult<AccountDto>> PartiallyUpdateAccount(int id,
              [FromBody] JsonPatchDocument<SaveAccountDto> patchDoc)
         {
@@ -118,6 +120,7 @@ namespace Products.API.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize(Roles = UserRoles.Admin)]
         public async Task<IActionResult> DeleteAccount(int id)
         {
             var result = await _accountService.DeleteAccount(id);

@@ -3,7 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Products.API.Infrastructure;
 
-namespace Products.IntegrationTests
+namespace Products.IntegrationTests.Infrastructure
 {
     [TestClass]
     public class JwtAuthManagerTests
@@ -21,6 +21,7 @@ namespace Products.IntegrationTests
         public void ShouldLoadCorrectJwtConfig()
         {
             var jwtConfig = _serviceProvider.GetRequiredService<JwtTokenConfig>();
+
             Assert.AreEqual("1234567890123456789", jwtConfig.Secret);
             Assert.AreEqual(20, jwtConfig.AccessTokenExpiration);
         }

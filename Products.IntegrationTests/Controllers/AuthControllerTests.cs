@@ -12,7 +12,7 @@ using Products.API.Infrastructure;
 using Products.API.Dto.Infrastructure;
 using Products.Domain.Constants;
 
-namespace Products.IntegrationTests
+namespace Products.IntegrationTests.Controllers
 {
     [TestClass]
     public class AuthControllerTests
